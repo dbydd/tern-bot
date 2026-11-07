@@ -1,0 +1,8 @@
+schema = 1
+id = "tern-bot"
+name = "Tern Bot"
+version = "0.1.0"
+description = "Multi-bot board: bot state, workers and sandbox desktops."
+icon = "robot"
+host = "host.luau"
+window = "window.luau"

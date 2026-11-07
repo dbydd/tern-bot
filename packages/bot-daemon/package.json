@@ -1,0 +1,16 @@
+{
+  "name": "@tern-bot/bot-daemon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tern-bot/bdfl-engine": "workspace:*",
+    "@tern-bot/sandbox-broker": "workspace:*",
+    "@tern-bot/tavern-harness": "workspace:*"
+  }
+}

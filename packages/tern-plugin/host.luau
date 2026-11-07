@@ -1,0 +1,9 @@
+--!strict
+-- tern-bot host half: the long-lived processes every bot on this machine shares.
+--
+-- TODO: start, watch and restart two companions, the way tern-onlyne's host half does:
+--   1. the Onlyne companion that owns the bot's message inbox (omp-onlyne already ships
+--      one; reuse its binary and config rather than writing a second node implementation)
+--   2. the sandbox-broker daemon (packages/bot-daemon), which owns lease TTLs so a bot
+--      that dies cannot leak a running VM
+-- Both are guarded on one key each in tern.kv, and the window half only reads status.

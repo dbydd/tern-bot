@@ -1,0 +1,9 @@
+--!strict
+-- tern-bot window half: the multi-bot board.
+--
+-- TODO: render, for every bot the shared sandbox-broker reports, one group with its state,
+-- worker list and lease countdown, plus a click target per worker that opens the sandbox
+-- desktop as Tern's own browser pane (cx:new_block("browser", …) / the `open` op) rather
+-- than a hand-written VNC client.
+-- TODO: leave the live rendering to OMP's NativeNode describe tree (src/index.ts); this
+-- half only owns the pane, the layout and the link routes.

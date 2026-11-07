@@ -1,0 +1,20 @@
+{
+  "name": "@tern-bot/tern-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "plugin.toml",
+    "host.luau",
+    "window.luau",
+    "src"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@oh-my-pi/pi-tui": "^18.18.0"
+  }
+}
