@@ -127,7 +127,7 @@ Sandboxes (3):
 
 ## 三、Worker Agent 收到的上下文注入
 
-Worker 在沙箱里启动时，Bot 会构造一个 `APPEND_SYSTEM.md` 注入到 worker 的 OMP 会话，内容是这次任务的约束：
+Worker 在沙箱或独立 Git worktree 里启动时，Bot 通过 `task` 的 `context`/`task` 参数（以及 `.omp/PROMPT-INJECT-bdfl.md` 自动附加根会话指令）注入这次任务的约束，不直接覆写磁盘上的上下文文件：
 
 ```markdown
 # Task Context (injected by Tern-Bot BDFL)
@@ -171,7 +171,7 @@ Bot 自己的 `tavernHarness` 在组装 prompt 时，冻结中缀里会包含当
 </active-work>
 ```
 
-**Author Note 内容**（每隔几轮由 `ctx.setInterval` 刷新写入 APPEND_SYSTEM.md）：
+**Author's Note 内容**（每轮通过 `pi.on("context")` 在消息数组倒数第 $D$ 条位置动态注入，绝不修改磁盘文件或稳定前缀，确保前序消息 100% 命中 Prefix Cache）：
 
 ```xml
 <current-env>
@@ -188,3 +188,18 @@ Bot 自己的 `tavernHarness` 在组装 prompt 时，冻结中缀里会包含当
 ## 五、一个设计选择的说明
 
 Worker agent 不需要知道 Bot 的完整状态，也不需要读 Bot 的上下文。Worker 只需要知道三件事：自己的任务是什么、完成后发哪个地址、遇到问题怎么求助。Bot 和 worker 之间的唯一共享媒介是 Onlyne 消息和 Git 分支，没有共享内存，没有共享数据库。这保持了两者的完全隔离——Bot 可以重启、换模型、甚至换人接管，worker 不受影响。
+
+---
+
+## 六、OMP 本体、已装插件与 Tern 原生能力的零造轮子复用矩阵
+
+为避免重复造轮子，`tern-bot` 直接建立在本机已安装的 OMP 18.18 底座、4 个插件与 18 个全局扩展之上：
+
+| 模块能力 | 复用的现成底座 / 插件 | `tern-bot` 胶水层职责 |
+| :--- | :--- | :--- |
+| **P2P 消息与算力资源总线** | `omp-onlyne` (`msg` 单入口 + `onlyne://resources/<owner>/<id>` + `onlyne.inbound` 邮件卡片) | `sandbox-broker` 将 OrbStack/Docker 沙箱暴露为标准 Onlyne Resource，无需自建 RPC |
+| **跨会话长期记忆** | `@dbydd/omp-hindsight` (`hindsight` 单入口 + `hindsight://` 虚拟树 + 离线队列) | `FrequentCompactor` 在压缩时直接产出 `{ intent: "retain ...", content }` 交由 Hindsight 入库 |
+| **本地免费 System-One 裁判** | `modelRoles.judge` (`magpie-decisions/group/decider`) + `extensions/_shared/judge.ts` (`openJudge`) | Lorebook 语义匹配与 `.omp/WATCHDOG-bdfl.md` 纪律巡检直接调用 `openJudge`，共享内存缓存 |
+| **三段式酒馆上下文 (保 Prefix Cache)** | `before_agent_start` (稳定前缀) + `session_before_compact` / `session.compacting` (`preserveData` 持久化冻结中缀) + `pi.on("context")` (仅倒数第 $D$ 条带 `kPerCallContextMessage` 注入 Author's Note) | `tavern-harness` 严格按这三层钩子装配，避免在 `context` 中全量重写历史导致 Prefix Cache 失效 |
+| **Worker 分支隔离与防误合** | `.omp/config.yml`: `task.isolation.enabled: true`, `merge: "branch"`, `apply: false` + `bash.gitGuard: true` | Worker 结束后保留独立分支，不自动合入主干；必须经 `bdfl-engine` 在沙箱内跑通测试后方可合入 |
+| **沙箱桌面画中画与原生 UI** | Tern 原生 WKWebView 画中画 (`openTernPage(novncUrl, "beside" \| "over")`) + `@oh-my-pi/pi-wire` 46 种 TSP `NativeNode` 原语 | `tern-plugin` 直接输出 `NativeNode` (`card`, `badge`, `meter`, `kv`, `button`) 并调用 Tern 原生 browser pane 挂载 noVNC |

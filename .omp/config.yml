@@ -1,0 +1,56 @@
+# Tern-Bot project-scoped OMP configuration
+# Aligns OMP runtime with Tavern Short-Context Harness, BDFL Branch Isolation, and Tern Native UI
+
+compaction:
+  enabled: true
+  thresholdTokens: 24000
+  keepRecentTokens: 8000
+  methodOrder:
+    - soft
+    - shake
+  dropUseless: true
+  supersedeReads: true
+  experimentalContextManagement: true
+
+provider:
+  appendOnlyContext: "on"
+
+providers:
+  cacheWarming: idle
+  cacheRetention: long
+
+modelRoles:
+  judge: magpie-decisions/group/decider
+
+task:
+  eager: always
+  structured: true
+  enableEffort: true
+  isolation:
+    enabled: true
+    merge: branch
+    apply: false
+
+bash:
+  gitGuard: true
+  allowCompoundCommands: true
+
+browser:
+  tern: true
+  idleCloseSec: 300
+
+extensionRenderers:
+  transcriptPresenters: true
+  assistantText: true
+
+goal:
+  enabled: true
+  continuationModes:
+    - interactive
+    - rpc
+
+async:
+  enabled: true
+  printWake: true
+
+interruptMode: wait
