@@ -1,0 +1,391 @@
+{
+  "generatedBy": "ssot gen",
+  "elements": [
+    {
+      "fqn": "gitHost",
+      "kind": "system",
+      "parent": null,
+      "children": [],
+      "tags": [
+        "external"
+      ],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "magpieGateway",
+      "kind": "system",
+      "parent": null,
+      "children": [],
+      "tags": [
+        "external"
+      ],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "onlyneNetwork",
+      "kind": "system",
+      "parent": null,
+      "children": [],
+      "tags": [
+        "external"
+      ],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "sharedInfra",
+      "kind": "system",
+      "parent": null,
+      "children": [
+        "sharedInfra.onlyneCompanion",
+        "sharedInfra.sandboxBroker",
+        "sharedInfra.ternPlugin"
+      ],
+      "tags": [
+        "shared"
+      ],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "sharedInfra.onlyneCompanion",
+      "kind": "container",
+      "parent": "sharedInfra",
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "sharedInfra.sandboxBroker",
+      "kind": "container",
+      "parent": "sharedInfra",
+      "children": [
+        "sharedInfra.sandboxBroker.leaseManager",
+        "sharedInfra.sandboxBroker.sandboxDriver"
+      ],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "sharedInfra.sandboxBroker.leaseManager",
+      "kind": "component",
+      "parent": "sharedInfra.sandboxBroker",
+      "children": [],
+      "tags": [
+        "contract"
+      ],
+      "business": false,
+      "contract": {
+        "module": "sharedInfra_sandboxBroker_leaseManager"
+      }
+    },
+    {
+      "fqn": "sharedInfra.sandboxBroker.sandboxDriver",
+      "kind": "component",
+      "parent": "sharedInfra.sandboxBroker",
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "sharedInfra.ternPlugin",
+      "kind": "container",
+      "parent": "sharedInfra",
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "ternBot",
+      "kind": "system",
+      "parent": null,
+      "children": [
+        "ternBot.botWorktree",
+        "ternBot.mainSandbox",
+        "ternBot.ompSession"
+      ],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "ternBot.botWorktree",
+      "kind": "container",
+      "parent": "ternBot",
+      "children": [],
+      "tags": [
+        "datastore"
+      ],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "ternBot.mainSandbox",
+      "kind": "container",
+      "parent": "ternBot",
+      "children": [],
+      "tags": [
+        "untrusted"
+      ],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "ternBot.ompSession",
+      "kind": "container",
+      "parent": "ternBot",
+      "children": [
+        "ternBot.ompSession.bdflTools",
+        "ternBot.ompSession.onlyneInbox",
+        "ternBot.ompSession.tavernHarness",
+        "ternBot.ompSession.ternUiWidget"
+      ],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "ternBot.ompSession.bdflTools",
+      "kind": "component",
+      "parent": "ternBot.ompSession",
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "ternBot.ompSession.onlyneInbox",
+      "kind": "component",
+      "parent": "ternBot.ompSession",
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "ternBot.ompSession.tavernHarness",
+      "kind": "component",
+      "parent": "ternBot.ompSession",
+      "children": [],
+      "tags": [
+        "contract"
+      ],
+      "business": false,
+      "contract": {
+        "module": "ternBot_ompSession_tavernHarness"
+      }
+    },
+    {
+      "fqn": "ternBot.ompSession.ternUiWidget",
+      "kind": "component",
+      "parent": "ternBot.ompSession",
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "user",
+      "kind": "actor",
+      "parent": null,
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "workerAgent",
+      "kind": "actor",
+      "parent": null,
+      "children": [],
+      "tags": [],
+      "business": false,
+      "contract": null
+    },
+    {
+      "fqn": "workerSandbox",
+      "kind": "system",
+      "parent": null,
+      "children": [],
+      "tags": [
+        "untrusted"
+      ],
+      "business": false,
+      "contract": null
+    }
+  ],
+  "relations": [
+    {
+      "source": "sharedInfra",
+      "target": "onlyneNetwork",
+      "title": "发布与订阅 Onlyne 消息"
+    },
+    {
+      "source": "sharedInfra",
+      "target": "workerSandbox",
+      "title": "创建、启动、停止、销毁 worker 沙箱 VM"
+    },
+    {
+      "source": "sharedInfra.onlyneCompanion",
+      "target": "onlyneNetwork",
+      "title": "订阅与发布 Onlyne 消息流"
+    },
+    {
+      "source": "sharedInfra.sandboxBroker",
+      "target": "onlyneNetwork",
+      "title": "经 Onlyne RFC 0019 算力网关申领与归还资源"
+    },
+    {
+      "source": "sharedInfra.ternPlugin",
+      "target": "sharedInfra.onlyneCompanion",
+      "title": "守护进程生命周期；读取待处理消息列表"
+    },
+    {
+      "source": "sharedInfra.ternPlugin",
+      "target": "sharedInfra.sandboxBroker",
+      "title": "查询所有 Bot 实例的租约状态；读取沙箱端口信息"
+    },
+    {
+      "source": "ternBot",
+      "target": "gitHost",
+      "title": "派发 Issue、审查和合并 PR"
+    },
+    {
+      "source": "ternBot",
+      "target": "magpieGateway",
+      "title": "调用 LLM 推理"
+    },
+    {
+      "source": "ternBot",
+      "target": "sharedInfra",
+      "title": "申领和释放沙箱租约；发送和接收 Onlyne 消息"
+    },
+    {
+      "source": "ternBot",
+      "target": "workerSandbox",
+      "title": "派发任务；在主会话沙箱内拉取 PR 分支执行验证；决定合并或反馈"
+    },
+    {
+      "source": "ternBot.botWorktree",
+      "target": "ternBot.mainSandbox",
+      "title": "提供 CoW 只读基础（bind mount）"
+    },
+    {
+      "source": "ternBot.ompSession",
+      "target": "gitHost",
+      "title": "派发 Issue；提交 PR 审查决定"
+    },
+    {
+      "source": "ternBot.ompSession",
+      "target": "magpieGateway",
+      "title": "调用 LLM 推理"
+    },
+    {
+      "source": "ternBot.ompSession",
+      "target": "sharedInfra.onlyneCompanion",
+      "title": "发送出站消息；接收入站消息唤醒"
+    },
+    {
+      "source": "ternBot.ompSession",
+      "target": "sharedInfra.sandboxBroker",
+      "title": "申领沙箱；查询租约状态；触发沙箱回收"
+    },
+    {
+      "source": "ternBot.ompSession",
+      "target": "ternBot.botWorktree",
+      "title": "读取工作区文件；审查 worker PR 分支；执行合并"
+    },
+    {
+      "source": "ternBot.ompSession",
+      "target": "ternBot.mainSandbox",
+      "title": "在沙箱内 SSH exec 执行构建与验证命令"
+    },
+    {
+      "source": "user",
+      "target": "ternBot",
+      "title": "发送指令、查看状态、旁观沙箱或介入操作"
+    },
+    {
+      "source": "workerAgent",
+      "target": "gitHost",
+      "title": "推送 PR 分支"
+    },
+    {
+      "source": "workerAgent",
+      "target": "workerSandbox",
+      "title": "在沙箱内执行代码、运行测试、提交 PR 分支"
+    },
+    {
+      "source": "workerSandbox",
+      "target": "onlyneNetwork",
+      "title": "通过 Onlyne 消息向主 Bot 报告 PR 提交、进度与阻塞"
+    }
+  ],
+  "views": [
+    {
+      "id": "index",
+      "of": null,
+      "nodes": [
+        "gitHost",
+        "magpieGateway",
+        "onlyneNetwork",
+        "sharedInfra",
+        "ternBot",
+        "user",
+        "workerAgent",
+        "workerSandbox"
+      ]
+    },
+    {
+      "id": "ompSessionView",
+      "of": "ternBot.ompSession",
+      "nodes": [
+        "ternBot.ompSession",
+        "ternBot.ompSession.bdflTools",
+        "ternBot.ompSession.onlyneInbox",
+        "ternBot.ompSession.tavernHarness",
+        "ternBot.ompSession.ternUiWidget"
+      ]
+    },
+    {
+      "id": "sandboxBrokerView",
+      "of": "sharedInfra.sandboxBroker",
+      "nodes": [
+        "sharedInfra.sandboxBroker",
+        "sharedInfra.sandboxBroker.leaseManager",
+        "sharedInfra.sandboxBroker.sandboxDriver"
+      ]
+    },
+    {
+      "id": "sharedInfraView",
+      "of": "sharedInfra",
+      "nodes": [
+        "onlyneNetwork",
+        "sharedInfra",
+        "sharedInfra.onlyneCompanion",
+        "sharedInfra.sandboxBroker",
+        "sharedInfra.ternPlugin",
+        "ternBot"
+      ]
+    },
+    {
+      "id": "ternBotView",
+      "of": "ternBot",
+      "nodes": [
+        "gitHost",
+        "magpieGateway",
+        "sharedInfra",
+        "ternBot",
+        "ternBot.botWorktree",
+        "ternBot.mainSandbox",
+        "ternBot.ompSession"
+      ]
+    }
+  ]
+}

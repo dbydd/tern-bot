@@ -1,0 +1,187 @@
+specification {
+  element actor { notation 'Person' style { shape person } }
+  element system { notation 'Software System' }
+  element container { notation 'Container' }
+  element component { notation 'Component' }
+  tag external
+  tag datastore
+  tag contract
+  tag untrusted
+  tag shared
+}
+
+model {
+  user = actor 'User / Operator' {
+    description '使用 Bot 处理日常事务、监视沙箱操作并在需要时介入的操作者'
+  }
+
+  workerAgent = actor 'Worker Agent' {
+    description '运行在沙箱 VM 内部的外部编码代理；通过 Git 分支和 Onlyne 消息与主 Bot 协作'
+  }
+
+  ternBot = system 'Tern-Bot Instance' {
+    description '单个 Bot 实例：个人智能助理与项目 BDFL。运行在用户本机 OMP 进程中，持有独立的 Onlyne node identity 和专属 git worktree'
+
+    ompSession = container 'OMP Session' {
+      technology 'OMP agent process'
+      description 'Bot 的主会话，采用 agent-with-sandbox 形态：Bot 逻辑运行在本机，通过工具操作沙箱'
+
+      tavernHarness = component 'Tavern Harness Extension' {
+        #contract
+        description '三段式上下文装配：稳定前缀由 SYSTEM.md 提供，冻结中缀通过 context 钩子在每次 LLM 调用前注入，Author Note 通过 APPEND_SYSTEM.md 追加；各段比例上限通过配置控制'
+      }
+
+      bdflTools = component 'BDFL Tool Suite' {
+        description '模型可调工具集：派发 Issue、跟踪 PR 状态、在主会话沙箱内执行验证（拉取 worker 分支运行测试）、决定合并或反馈、触发 worker 沙箱回收'
+      }
+
+      onlyneInbox = component 'Onlyne Inbox Extension' {
+        description '监听来自 Onlyne companion 的入站消息；worker PR 提交、信任握手等事件通过 pi.sendUserMessage 注入主 Bot 对话；不拦截用户正常聊天'
+      }
+
+      ternUiWidget = component 'Tern UI Extension' {
+        description '通过 @oh-my-pi/pi-tui NativeNode 直接写 TSP 组件：状态条显示活跃 worker 数与租约状态，Sheet overlay 由 ctx.ui.custom 渲染'
+      }
+    }
+
+    botWorktree = container 'Bot git Worktree' {
+      #datastore
+      technology 'git worktree (local filesystem)'
+      description 'Bot 实例持有的本地 git worktree；作为 CoW 快照只读基础挂载进主会话沙箱；worker 提交的 PR 分支在此审查和验证'
+    }
+
+    mainSandbox = container 'Main Session Sandbox VM' {
+      #untrusted
+      technology 'VM / Container (OrbStack or remote, CoW from botWorktree)'
+      description 'Bot 自己使用的隔离 VM；从 botWorktree CoW 派生，用于在合并前拉取 worker PR 分支执行构建与验证；运行 SSH server 和 noVNC'
+    }
+  }
+
+  sharedInfra = system 'Shared Infrastructure' {
+    #shared
+    description '多 Bot 实例共享的本机基础设施；每个 Bot 实例通过自己的 Onlyne node identity 访问，sandbox-broker 按 bot_id 隔离租约'
+
+    onlyneCompanion = container 'Onlyne Companion Daemon' {
+      technology 'Bun daemon process'
+      description '持有本机 Onlyne P2P 节点身份（Ed25519）；承载 IM 网关路由和 MCP 工具网关；按 bot_id 路由入站消息到对应 Bot 的 OMP session；由 Tern plugin host.luau 守护和重启'
+    }
+
+    sandboxBroker = container 'Sandbox Broker Daemon' {
+      technology 'Bun daemon process'
+      description '封装 @opencoredev/sandbox-sdk，抽象多种弹性计算后端；按 bot_id 隔离租约；管理 CoW 快照派生、端口分配和 TTL 超时回收；暴露本地 HTTP admin API'
+
+      leaseManager = component 'Lease Manager' {
+        #contract
+        description '维护沙箱租约状态机（PROVISIONING → RUNNING → STOPPED → DESTROYED）；TTL 到期时触发安全回收，不允许孤儿泄漏；每条租约绑定 bot_id 和 sandbox kind（main 或 worker）'
+      }
+
+      sandboxDriver = component 'Sandbox Driver Adapter' {
+        description '通过 @opencoredev/sandbox-sdk 对接多种后端：本机 OrbStack、远程 VPS Docker、云弹性计算服务；向上暴露统一的 create/exec/destroy 接口'
+      }
+    }
+
+    ternPlugin = container 'Tern Bot Plugin' {
+      technology 'Tern plugin (Luau)'
+      description 'Tern 原生插件：host.luau 守护 Onlyne companion 和 sandbox-broker 进程；window.luau 渲染多 Bot 实例的分组看板，包括 worker 任务进度、PR 状态列表和沙箱桌面画中画'
+    }
+  }
+
+  workerSandbox = system 'Worker Sandbox VM' {
+    #untrusted
+    description '运行 worker agent 的隔离 VM；OMP 进程直接在此运行（agent-in-sandbox 形态）；通过 Onlyne P2P 消息与主 Bot 通信；工作产出通过 git push PR 分支回流；由 sandbox-broker 按租约管理生命周期'
+  }
+
+  onlyneNetwork = system 'Onlyne Network' {
+    #external
+    description 'Onlyne P2P 消息与算力控制总线'
+  }
+
+  magpieGateway = system 'Magpie Model Gateway' {
+    #external
+    description '统一 LLM 推理网关'
+  }
+
+  gitHost = system 'Git Host' {
+    #external
+    description '托管项目仓库；worker agent 向此推送 PR 分支，主 Bot 在此审查和合并'
+  }
+
+  user -> ternBot '发送指令、查看状态、旁观沙箱或介入操作'
+  workerAgent -> workerSandbox '在沙箱内执行代码、运行测试、提交 PR 分支'
+  workerAgent -> gitHost '推送 PR 分支'
+  workerSandbox -> onlyneNetwork '通过 Onlyne 消息向主 Bot 报告 PR 提交、进度与阻塞'
+  ternBot -> sharedInfra '申领和释放沙箱租约；发送和接收 Onlyne 消息'
+  ternBot -> workerSandbox '派发任务；在主会话沙箱内拉取 PR 分支执行验证；决定合并或反馈'
+  ternBot -> gitHost '派发 Issue、审查和合并 PR'
+  ternBot -> magpieGateway '调用 LLM 推理'
+  sharedInfra -> onlyneNetwork '发布与订阅 Onlyne 消息'
+  sharedInfra -> workerSandbox '创建、启动、停止、销毁 worker 沙箱 VM'
+
+  ternBot.ompSession -> ternBot.botWorktree '读取工作区文件；审查 worker PR 分支；执行合并'
+  ternBot.ompSession -> ternBot.mainSandbox '在沙箱内 SSH exec 执行构建与验证命令'
+  ternBot.ompSession -> sharedInfra.onlyneCompanion '发送出站消息；接收入站消息唤醒'
+  ternBot.ompSession -> sharedInfra.sandboxBroker '申领沙箱；查询租约状态；触发沙箱回收'
+  ternBot.ompSession -> magpieGateway '调用 LLM 推理'
+  ternBot.ompSession -> gitHost '派发 Issue；提交 PR 审查决定'
+  ternBot.botWorktree -> ternBot.mainSandbox '提供 CoW 只读基础（bind mount）'
+
+  sharedInfra.onlyneCompanion -> onlyneNetwork '订阅与发布 Onlyne 消息流'
+  sharedInfra.sandboxBroker -> onlyneNetwork '经 Onlyne RFC 0019 算力网关申领与归还资源'
+  sharedInfra.ternPlugin -> sharedInfra.onlyneCompanion '守护进程生命周期；读取待处理消息列表'
+  sharedInfra.ternPlugin -> sharedInfra.sandboxBroker '查询所有 Bot 实例的租约状态；读取沙箱端口信息'
+}
+
+global {
+  styleGroup theme {
+    style element.tag = #external {
+      color muted
+      notation 'External Software System'
+    }
+    style element.tag = #datastore {
+      shape storage
+      notation 'Container: Data Store'
+    }
+    style element.tag = #untrusted {
+      color red
+      notation 'Untrusted VM Sandbox'
+    }
+    style element.tag = #shared {
+      color secondary
+      notation 'Shared Infrastructure'
+    }
+  }
+}
+
+views {
+  global style theme
+
+  view index {
+    title 'Tern-Bot 系统上下文'
+    description '一个 Bot 实例为谁服务、与哪些外部系统交互，以及多实例共享哪些基础设施'
+    include *
+  }
+
+  view ternBotView of ternBot {
+    title 'Tern-Bot 实例容器图'
+    description 'Bot 实例内部的运行单元：OMP 会话、本地 git worktree 与主会话沙箱 VM'
+    include *
+  }
+
+  view ompSessionView of ternBot.ompSession {
+    title 'OMP Session 组件图'
+    description 'OMP 会话内的四个功能块：Tavern Harness、BDFL 工具集、Onlyne 收件箱、Tern UI 组件'
+    include *
+  }
+
+  view sharedInfraView of sharedInfra {
+    title '共享基础设施容器图'
+    description '多 Bot 实例共用的 Onlyne companion、sandbox-broker daemon 和 Tern plugin'
+    include *
+  }
+
+  view sandboxBrokerView of sharedInfra.sandboxBroker {
+    title 'Sandbox Broker 组件图'
+    description 'Lease Manager 状态机与 Sandbox Driver Adapter 多后端抽象'
+    include *
+  }
+}
