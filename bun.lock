@@ -12,6 +12,9 @@
     "packages/bdfl-engine": {
       "name": "@tern-bot/bdfl-engine",
       "version": "0.1.0",
+      "dependencies": {
+        "@tern-bot/sandbox-broker": "workspace:*",
+      },
     },
     "packages/bot-daemon": {
       "name": "@tern-bot/bot-daemon",
@@ -20,6 +23,7 @@
         "@tern-bot/bdfl-engine": "workspace:*",
         "@tern-bot/sandbox-broker": "workspace:*",
         "@tern-bot/tavern-harness": "workspace:*",
+        "@tern-bot/tern-plugin": "workspace:*",
       },
     },
     "packages/sandbox-broker": {

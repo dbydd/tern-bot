@@ -1,5 +1,5 @@
-# Tern-Bot project-scoped OMP configuration
-# Aligns OMP runtime with Tavern Short-Context Harness, BDFL Branch Isolation, and Tern Native UI
+# Tern-Bot Clean-Slate Global Configuration (~/.config/omp-bot/config.yml -> profile/config.yml)
+# Starts from a blank canvas without inheriting the main coding-agent rules/extensions clutter.
 
 compaction:
   enabled: true
@@ -20,7 +20,12 @@ providers:
   cacheRetention: long
 
 modelRoles:
+  default: magpie/group/theorist
   judge: magpie-decisions/group/decider
+  smol: magpie/group/labor
+  tiny: magpie/group/labor
+  memory: magpie/group/labor
+  task: magpie/group/fusion-flattened
 
 task:
   eager: always

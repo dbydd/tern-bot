@@ -1,0 +1,13 @@
+entries:
+  - id: sandbox-policy
+    keys: [sandbox, orbstack, novnc, vm, lease]
+    content: "Every sandbox lease is managed by LeaseManager (PROVISIONING -> RUNNING -> STOPPED) with strict TTL reclamation. Data plane uses direct SSH (port 32222 on OrbStack) and noVNC (port 6080)."
+    cooldownTurns: 3
+  - id: bdfl-merge-gate
+    keys: [merge, pr, review, branch, worker]
+    content: "Invariant inv_no_unverified_merge: A worker PR branch must transition through PR_SUBMITTED -> REVIEW inside a RUNNING main review sandbox before bdfl_merge is permitted."
+    cooldownTurns: 2
+  - id: cache-preservation
+    keys: [context, compact, cache, token, lorebook]
+    content: "Prefix cache preservation: CharacterCard stays in before_agent_start systemPrompt; frozen infix stays in session.compacting preserveData; only the depth-D Author's Note is injected in the per-call context hook."
+    cooldownTurns: 3

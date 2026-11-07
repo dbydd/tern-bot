@@ -13,13 +13,16 @@
  */
 
 import { BdflEngine } from "@tern-bot/bdfl-engine"
-import { LeaseManager } from "@tern-bot/sandbox-broker"
-import { TavernHarness } from "@tern-bot/tavern-harness"
+import { LeaseManager, MockDriver, type SandboxDriver } from "@tern-bot/sandbox-broker"
+import { TavernHarness, type WindowBudget } from "@tern-bot/tavern-harness"
 
 export interface BotDaemonOptions {
   botId: string
   /** git worktree this bot owns; never shared with another bot. */
   worktree: string
+  driver?: SandboxDriver
+  budget?: WindowBudget
+  tickIntervalMs?: number
 }
 
 export interface BotDaemon {
@@ -30,6 +33,30 @@ export interface BotDaemon {
   stop(): Promise<void>
 }
 
-export function startBotDaemon(options: BotDaemonOptions): Promise<BotDaemon> {
-  throw new Error("not implemented")
+export async function startBotDaemon(options: BotDaemonOptions): Promise<BotDaemon> {
+  if (!options.botId.trim()) throw new Error("botId is required")
+  if (!options.worktree.trim()) throw new Error("worktree is required")
+
+  const driver = options.driver ?? new MockDriver()
+  const leases = new LeaseManager(driver)
+  const harness = new TavernHarness(options.budget ? { budget: options.budget } : undefined)
+  const bdfl = new BdflEngine({ leases, botId: options.botId })
+
+  const intervalMs = options.tickIntervalMs ?? 0
+  const timer =
+    intervalMs > 0
+      ? setInterval(() => {
+          void leases.tick(Math.max(1, Math.round(intervalMs / 1000)))
+        }, intervalMs)
+      : undefined
+
+  return {
+    botId: options.botId,
+    leases,
+    bdfl,
+    harness,
+    async stop(): Promise<void> {
+      clearInterval(timer)
+    },
+  }
 }

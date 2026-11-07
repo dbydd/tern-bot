@@ -28,7 +28,7 @@ model {
 
       tavernHarness = component 'Tavern Harness Extension' {
         #contract
-        description '三段式上下文装配：稳定前缀由 SYSTEM.md 提供，冻结中缀通过 context 钩子在每次 LLM 调用前注入，Author Note 通过 APPEND_SYSTEM.md 追加；各段比例上限通过配置控制'
+        description '三段式上下文装配：稳定前缀由 before_agent_start 注入 systemPrompt，冻结中缀由 session.compacting 持久化进 preserveData（保 Prefix Cache），Author Note 通过 context 钩子在倒数第 D 条动态注入'
       }
 
       bdflTools = component 'BDFL Tool Suite' {

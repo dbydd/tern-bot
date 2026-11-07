@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": ["packages/*"],
+  "bin": {
+    "omp-bot": "./bin/omp-bot"
+  },
   "scripts": {
-    "check": "bun run --filter '*' check"
+    "check": "bun run --filter '*' check",
+    "smoke:orbstack": "bun run packages/sandbox-broker/test/smoke-orbstack.ts",
+    "smoke:bdfl": "bun run packages/bdfl-engine/test/smoke-flow.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.4.0",
