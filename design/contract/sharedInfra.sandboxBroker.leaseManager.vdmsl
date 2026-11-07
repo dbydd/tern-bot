@@ -1,0 +1,116 @@
+-- 沙箱租约状态机盒子。
+-- 担心：租约到期或请求释放后，VM 资源没有被安全回收，
+-- 形成孤儿泄漏（一个没有 owner 的运行中容器）。
+-- 端口之间的先后由接线持有；时钟流逝（Tick）由接线建模。
+-- 精度停在"状态机合法迁移 + TTL 安全网"：VM 内部的内容不透明。
+-- DESTROYED 的租约从 map 中移除，不以记录形式保留。
+module sharedInfra_sandboxBroker_leaseManager
+
+exports
+  types
+    struct LeaseId;
+    struct BotId;
+    struct PortMapping;
+    struct AcquireRequest;
+    struct Lease;
+    LeaseState
+  operations
+    acquire : AcquireRequest ==> LeaseId;
+    tick    : nat ==> ();
+    renew   : LeaseId * nat ==> bool;
+    release : LeaseId ==> ();
+    query   : LeaseId ==> [Lease]
+
+definitions
+
+types
+
+  LeaseId   :: id  : token;
+  BotId     :: bid : token;
+
+  LeaseState = <PROVISIONING> | <RUNNING> | <STOPPED> | <FAILED>;
+
+  SandboxKind = <main> | <worker>;
+
+  AcquireRequest ::
+    botId   : BotId
+    kind    : SandboxKind
+    ttlSecs : nat1
+    spec    : token;
+
+  PortMapping :: ports : seq of token;
+
+  Lease ::
+    id          : LeaseId
+    botId       : BotId
+    kind        : SandboxKind
+    leaseState  : LeaseState
+    ttlSecs     : nat1
+    elapsedSecs : nat
+    ports       : PortMapping
+
+state Leases of
+  leases : map LeaseId to Lease
+inv mk_Leases(ls) ==
+  forall lid in set dom ls &
+    ls(lid).leaseState = <RUNNING> => ls(lid).elapsedSecs < ls(lid).ttlSecs
+init s == s = mk_Leases({|->})
+end
+
+operations
+
+  -- REQ-8, REQ-12
+  acquire(req : AcquireRequest) result : LeaseId
+  ext wr leases
+  pre req.ttlSecs > 0
+  post result not in set dom leases~ and
+       result in set dom leases and
+       leases(result).botId       = req.botId and
+       leases(result).kind        = req.kind and
+       leases(result).leaseState  = <PROVISIONING> and
+       leases(result).elapsedSecs = 0 and
+       leases(result).ttlSecs     = req.ttlSecs;
+
+  -- REQ-8
+  tick(deltaSecs : nat)
+  ext wr leases
+  post forall lid in set dom leases~ &
+         let old = leases~(lid) in
+           old.leaseState = <RUNNING> =>
+             lid in set dom leases and
+             leases(lid).elapsedSecs = old.elapsedSecs + deltaSecs and
+             (old.elapsedSecs + deltaSecs >= old.ttlSecs =>
+                leases(lid).leaseState = <STOPPED>) and
+             (old.elapsedSecs + deltaSecs < old.ttlSecs =>
+                leases(lid).leaseState = <RUNNING>);
+
+  -- REQ-8
+  renew(lid : LeaseId, extendSecs : nat) result : bool
+  ext wr leases
+  pre lid in set dom leases
+  post (leases~(lid).leaseState = <RUNNING> =>
+          result = true and
+          leases(lid).ttlSecs    = leases~(lid).ttlSecs + extendSecs and
+          leases(lid).leaseState = <RUNNING>) and
+       (leases~(lid).leaseState <> <RUNNING> =>
+          result = false and
+          leases = leases~);
+
+  -- REQ-8
+  release(lid : LeaseId)
+  ext wr leases
+  pre lid in set dom leases
+  post let old = leases~(lid) in
+         ((old.leaseState = <STOPPED> or old.leaseState = <FAILED>) => leases = leases~) and
+         ((old.leaseState <> <STOPPED> and old.leaseState <> <FAILED>) =>
+            leases(lid).leaseState = <STOPPED> and
+            leases(lid).botId      = old.botId and
+            leases(lid).kind       = old.kind);
+
+  -- REQ-12
+  query(lid : LeaseId) result : [Lease]
+  ext rd leases
+  post (lid in set dom leases  => result = leases(lid)) and
+       (lid not in set dom leases => result = nil)
+
+end sharedInfra_sandboxBroker_leaseManager

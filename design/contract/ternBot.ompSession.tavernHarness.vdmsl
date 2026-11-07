@@ -1,0 +1,99 @@
+-- 三段式上下文窗口装配盒子。
+-- 担心：Bot 的对话上下文随时间无限膨胀，超过模型接受的窗口上限，
+-- 导致推理质量下降或请求被拒。
+-- 端口之间的先后由接线持有；这里只承诺单次装配的结果满足比例约束。
+-- 精度停在"比例约束成立"：三段的实际内容不透明，只约束各段占总窗口的份额。
+module ternBot_ompSession_tavernHarness
+
+exports
+  types
+    struct WindowBudget;
+    struct PromptAssembly;
+    struct LoreMatch
+  operations
+    configure     : WindowBudget ==> ();
+    ingestMessage : token ==> ();
+    matchLorebook : token ==> set of LoreMatch;
+    assemblePrompt : () ==> PromptAssembly;
+    compactHistory : token ==> token
+
+definitions
+
+types
+
+  WindowBudget ::
+    totalTokens     : nat1
+    prefixRatio     : Ratio
+    infixRatio      : Ratio
+    suffixRatio     : Ratio
+    authorNoteRatio : Ratio
+  inv mk_WindowBudget(t, p, i, s, a) ==
+    p.num + i.num + s.num + a.num <= p.den and
+    p.den = i.den and i.den = s.den and s.den = a.den and
+    t > 0;
+
+  Ratio ::
+    num : nat
+    den : nat1
+  inv mk_Ratio(n, d) == n <= d;
+
+  PromptAssembly ::
+    prefixTokens     : nat
+    infixTokens      : nat
+    suffixTokens     : nat
+    authorNoteTokens : nat
+    totalTokens      : nat;
+
+  LoreMatch ::
+    entryId : token
+    tokens  : nat1
+
+state WindowContext of
+  budget       : [WindowBudget]
+  history      : seq of token
+  lorebook     : map token to nat1
+  infixSummary : token
+  authorNote   : token
+init s == s = mk_WindowContext(nil, [], {|->}, mk_token(""), mk_token(""))
+end
+
+operations
+
+  -- REQ-4
+  configure(b : WindowBudget)
+  ext wr budget
+  post budget = b;
+
+  -- REQ-4, REQ-7
+  ingestMessage(msg : token)
+  ext rd  budget
+      wr  history
+  pre budget <> nil
+  post len history <= len history~ + 1;
+
+  -- REQ-5
+  matchLorebook(queryTerm : token) result : set of LoreMatch
+  ext rd lorebook
+  post result = {} or
+       forall m in set result & m.entryId in set dom lorebook;
+
+  -- REQ-4, REQ-5, REQ-6
+  assemblePrompt() result : PromptAssembly
+  ext rd budget, history, lorebook, infixSummary, authorNote
+  pre budget <> nil
+  post result.prefixTokens     <= (budget.prefixRatio.num * budget.totalTokens) div budget.prefixRatio.den and
+       result.infixTokens      <= (budget.infixRatio.num  * budget.totalTokens) div budget.infixRatio.den and
+       result.suffixTokens     <= (budget.suffixRatio.num * budget.totalTokens) div budget.suffixRatio.den and
+       result.authorNoteTokens <= (budget.authorNoteRatio.num * budget.totalTokens) div budget.authorNoteRatio.den and
+       result.totalTokens = result.prefixTokens + result.infixTokens +
+                            result.suffixTokens + result.authorNoteTokens and
+       result.totalTokens <= budget.totalTokens;
+
+  -- REQ-7
+  compactHistory(summary : token) result : token
+  ext wr history, infixSummary
+  post len history <= len history~ and
+       infixSummary = summary and
+       result = summary
+
+end ternBot_ompSession_tavernHarness
