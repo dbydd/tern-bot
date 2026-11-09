@@ -1,5 +1,5 @@
 {
-  "name": "@tern-bot/tavern-harness",
+  "name": "@dbydd/tavern-harness",
   "version": "0.1.0",
   "description": "Short-context sliding window budget and lorebook memory harness for Tern Bot",
   "license": "MIT",

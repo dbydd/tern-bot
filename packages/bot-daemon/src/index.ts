@@ -10,8 +10,8 @@
  *      late heartbeat or a replay. No status HTTP server exists on this side.
  */
 
-import { BdflEngine, readHubEndpoint } from "@tern-bot/bdfl-engine"
-import { TavernHarness, type WindowBudget } from "@tern-bot/tavern-harness"
+import { BdflEngine, readHubEndpoint } from "@dbydd/bdfl-engine"
+import { TavernHarness, type WindowBudget } from "@dbydd/tavern-harness"
 
 export interface BotDaemonOptions {
   botId: string
@@ -61,7 +61,7 @@ function workerAgentCommandFromEnv(): string[] {
   return raw.split(/\s+/)
 }
 
-export { readHubEndpoint } from "@tern-bot/bdfl-engine"
+export { readHubEndpoint } from "@dbydd/bdfl-engine"
 
 interface BoardWorker {
   workerId: string

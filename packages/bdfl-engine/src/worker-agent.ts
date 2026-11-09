@@ -10,7 +10,8 @@
  * `/tmp/tern-bot` so `/workspace` stays the artifact tree.
  */
 
-import { execInSandbox, shellQuote, type SandboxDescriptor } from "@onlyne/compute-core"
+import type { SandboxDescriptor } from "@onlyne/compute-core"
+import { execInSandbox, shellQuote } from "./sandbox-exec.ts"
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs"
 import { homedir } from "node:os"
 import { join } from "node:path"

@@ -1,5 +1,5 @@
 {
-  "name": "@tern-bot/tern-plugin",
+  "name": "@dbydd/tern-plugin",
   "version": "0.1.0",
   "description": "Tern native plugin and companion hub for Tern Bot board and sandbox preview",
   "license": "MIT",

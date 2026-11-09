@@ -1,5 +1,5 @@
 {
-  "name": "@tern-bot/bdfl-engine",
+  "name": "@dbydd/bdfl-engine",
   "version": "0.1.0",
   "description": "Sandbox lifecycle engine, BDFL review browser, and ACP resident agent manager for Tern Bot",
   "license": "MIT",

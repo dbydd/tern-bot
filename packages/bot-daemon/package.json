@@ -1,5 +1,5 @@
 {
-  "name": "@tern-bot/bot-daemon",
+  "name": "@dbydd/bot-daemon",
   "version": "0.1.0",
   "description": "OMP extension and daemon for Tern Bot BDFL orchestration",
   "license": "MIT",
@@ -21,8 +21,8 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
-    "@tern-bot/bdfl-engine": "^0.1.0",
-    "@tern-bot/tavern-harness": "^0.1.0",
-    "@tern-bot/tern-plugin": "^0.1.0"
+    "@dbydd/bdfl-engine": "^0.1.0",
+    "@dbydd/tavern-harness": "^0.1.0",
+    "@dbydd/tern-plugin": "^0.1.0"
   }
 }

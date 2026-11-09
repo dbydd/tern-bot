@@ -14,9 +14,6 @@
  */
 
 import {
-  execInSandbox,
-  execInSandboxOrThrow,
-  shellQuote,
   type AcquireSpec,
   type SandboxDescriptor,
 } from "@onlyne/compute-core"
@@ -38,6 +35,7 @@ import {
   type SandboxBrowserAction,
   type SandboxObservation,
 } from "./sandbox-ui.ts"
+import { execInSandbox, execInSandboxOrThrow, shellQuote } from "./sandbox-exec.ts"
 import {
   WorkerAgentHost,
   defaultRelayPath,
