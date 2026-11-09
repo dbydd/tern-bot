@@ -38,14 +38,14 @@ Tern Bot 是专为 [Tern](https://tern.tools) 终端多路复用器打造的个�
 
 ## 组件清单
 
-本仓库包含全套 tern-bot 核心组件：
+本仓库包含全套 tern-bot 核心组件，并已按模块解耦发布至 npm：
 
 | 模块目录 | 角色职责 |
 |---|---|
-| `packages/tern-plugin` | Tern 原生插件（Luau + TypeScript Hub），包含看板 Block、命令面板动作、桌面截图捕获。 |
-| `packages/bot-daemon` | Bot 宿主守护进程（OMP 扩展），提供状态同步心跳、上下文计量与 BDFL 调度工具。 |
-| `packages/bdfl-engine` | 引擎核心层：负责计算租约申请、产物收集提交、Review 浏览器控制与 Worker Agent 常驻连接。 |
-| `packages/tavern-harness` | 上下文窗口预算与滑动压缩管理，保障会话在长周期调度下稳定可控。 |
+| `packages/tern-plugin` (`@tern-bot/tern-plugin`) | Tern 原生插件（Luau + TypeScript Hub），包含看板 Block、命令面板动作、桌面截图捕获。 |
+| `packages/bot-daemon` (`@tern-bot/bot-daemon`) | Bot 宿主守护进程（OMP 扩展），提供状态同步心跳、上下文计量与 BDFL 调度工具。 |
+| `packages/bdfl-engine` (`@tern-bot/bdfl-engine`) | 引擎核心层：负责计算租约申请、产物收集提交、Review 浏览器控制与 Worker Agent 常驻连接。 |
+| `packages/tavern-harness` (`@tern-bot/tavern-harness`) | 上下文窗口预算与滑动压缩管理，保障会话在长周期调度下稳定可控。 |
 | `packages/sandbox-image` | 隔离沙箱 Dockerfile 与入口脚本（支持 Xvfb、noVNC 桌面、Chromium CDP 与 ACP 运行时）。 |
 | `templates/sandbox-cfg` | 沙箱专用 Agent HOME 配置模板样例（脱敏版）。 |
 | `scripts/` & `install.sh` | 一键自动化安装、依赖校验、镜像构建与插件链接脚本。 |

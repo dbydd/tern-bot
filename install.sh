@@ -19,7 +19,7 @@ echo "  ✓ Python: $(python3 --version)"
 echo "  ✓ Tar: $(tar --version 2>&1 | head -n1)"
 
 echo ""
-echo "=== [2/6] 安装 Node 依赖 ==="
+echo "=== [2/6] 安装依赖包 (通过 npm/bun registry) ==="
 bun install
 
 echo ""

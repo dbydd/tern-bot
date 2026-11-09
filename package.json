@@ -9,14 +9,9 @@
     "check": "bun run --filter '*' check"
   },
   "dependencies": {
-    "@onlyne/compute-core": "file:../onlyne/packages/compute-core",
-    "@onlyne/compute-gateway": "file:../onlyne/packages/compute-gateway",
-    "@onlyne/lib": "file:../onlyne/packages/lib"
-  },
-  "overrides": {
-    "@onlyne/compute-core": "file:../onlyne/packages/compute-core",
-    "@onlyne/compute-gateway": "file:../onlyne/packages/compute-gateway",
-    "@onlyne/lib": "file:../onlyne/packages/lib"
+    "@onlyne/compute-core": "^3.2.0",
+    "@onlyne/compute-gateway": "^3.2.0",
+    "@onlyne/lib": "^3.2.0"
   },
   "devDependencies": {
     "@types/bun": "^1.4.0",

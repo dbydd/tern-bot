@@ -1,10 +1,22 @@
 {
   "name": "@tern-bot/tavern-harness",
   "version": "0.1.0",
-  "private": true,
+  "description": "Short-context sliding window budget and lorebook memory harness for Tern Bot",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dbydd/tern-bot.git",
+    "directory": "packages/tavern-harness"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "check": "tsc --noEmit"
   }

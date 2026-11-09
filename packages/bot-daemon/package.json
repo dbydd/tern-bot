@@ -1,16 +1,28 @@
 {
   "name": "@tern-bot/bot-daemon",
   "version": "0.1.0",
-  "private": true,
+  "description": "OMP extension and daemon for Tern Bot BDFL orchestration",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dbydd/tern-bot.git",
+    "directory": "packages/bot-daemon"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "check": "tsc --noEmit"
   },
   "dependencies": {
-    "@tern-bot/bdfl-engine": "workspace:*",
-    "@tern-bot/tavern-harness": "workspace:*",
-    "@tern-bot/tern-plugin": "workspace:*"
+    "@tern-bot/bdfl-engine": "^0.1.0",
+    "@tern-bot/tavern-harness": "^0.1.0",
+    "@tern-bot/tern-plugin": "^0.1.0"
   }
 }
