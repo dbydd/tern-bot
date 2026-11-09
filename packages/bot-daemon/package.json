@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@tern-bot/bdfl-engine": "workspace:*",
-    "@tern-bot/sandbox-broker": "workspace:*",
     "@tern-bot/tavern-harness": "workspace:*",
     "@tern-bot/tern-plugin": "workspace:*"
   }

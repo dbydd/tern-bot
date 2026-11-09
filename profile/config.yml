@@ -1,24 +1,21 @@
-# Tern-Bot Clean-Slate Global Configuration (~/.config/omp-bot/config.yml -> profile/config.yml)
-# Starts from a blank canvas without inheriting the main coding-agent rules/extensions clutter.
-
 compaction:
   enabled: true
-  thresholdTokens: 24000
-  keepRecentTokens: 8000
+  thresholdTokens: 128000
+  keepRecentTokens: 20000
+  midTurnEnabled: true
+  thresholdPercent: 50
   methodOrder:
     - soft
     - shake
+    - handoff
   dropUseless: true
   supersedeReads: true
   experimentalContextManagement: true
-
 provider:
   appendOnlyContext: "on"
-
 providers:
   cacheWarming: idle
   cacheRetention: long
-
 modelRoles:
   default: magpie/group/theorist
   judge: magpie-decisions/group/decider
@@ -26,7 +23,6 @@ modelRoles:
   tiny: magpie/group/labor
   memory: magpie/group/labor
   task: magpie/group/fusion-flattened
-
 task:
   eager: always
   structured: true
@@ -35,27 +31,24 @@ task:
     enabled: true
     merge: branch
     apply: false
-
 bash:
   gitGuard: true
   allowCompoundCommands: true
-
 browser:
   tern: true
   idleCloseSec: 300
-
 extensionRenderers:
   transcriptPresenters: true
   assistantText: true
-
 goal:
   enabled: true
   continuationModes:
     - interactive
     - rpc
-
 async:
   enabled: true
   printWake: true
-
 interruptMode: wait
+setupVersion: 3
+dev:
+  autoqaConsent: granted

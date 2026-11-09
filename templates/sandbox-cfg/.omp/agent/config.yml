@@ -1,0 +1,8 @@
+modelRoles:
+  default: magpie/group/engineer
+  judge: magpie-decisions/group/decider
+  smol: magpie/group/labor
+  tiny: magpie/group/labor
+  task: magpie/group/fusion-flattened
+tools:
+  approvalMode: yolo

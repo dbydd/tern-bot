@@ -4,6 +4,11 @@
   "workspaces": {
     "": {
       "name": "tern-bot",
+      "dependencies": {
+        "@onlyne/compute-core": "file:../onlyne/packages/compute-core",
+        "@onlyne/compute-gateway": "file:../onlyne/packages/compute-gateway",
+        "@onlyne/lib": "file:../onlyne/packages/lib",
+      },
       "devDependencies": {
         "@types/bun": "^1.4.0",
         "typescript": "^5.9.0",
@@ -12,23 +17,15 @@
     "packages/bdfl-engine": {
       "name": "@tern-bot/bdfl-engine",
       "version": "0.1.0",
-      "dependencies": {
-        "@tern-bot/sandbox-broker": "workspace:*",
-      },
     },
     "packages/bot-daemon": {
       "name": "@tern-bot/bot-daemon",
       "version": "0.1.0",
       "dependencies": {
         "@tern-bot/bdfl-engine": "workspace:*",
-        "@tern-bot/sandbox-broker": "workspace:*",
         "@tern-bot/tavern-harness": "workspace:*",
         "@tern-bot/tern-plugin": "workspace:*",
       },
-    },
-    "packages/sandbox-broker": {
-      "name": "@tern-bot/sandbox-broker",
-      "version": "0.1.0",
     },
     "packages/tavern-harness": {
       "name": "@tern-bot/tavern-harness",
@@ -42,7 +39,14 @@
       },
     },
   },
+  "overrides": {
+    "@onlyne/compute-core": "file:../onlyne/packages/compute-core",
+    "@onlyne/compute-gateway": "file:../onlyne/packages/compute-gateway",
+    "@onlyne/lib": "file:../onlyne/packages/lib",
+  },
   "packages": {
+    "@leichtgewicht/ip-codec": ["@leichtgewicht/ip-codec@2.0.5", "", {}, "sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw=="],
+
     "@oh-my-pi/omptype": ["@oh-my-pi/omptype@18.18.0", "", {}, "sha512-pjxcPlrgXgumugdme9rUovaMRm5115pfCZVLPSkXh47mC41P4sFTb09tUYiPYloaBwh0HUzjuQTQMug3UFZNQQ=="],
 
     "@oh-my-pi/pi-agent-core": ["@oh-my-pi/pi-agent-core@18.18.0", "", { "dependencies": { "@oh-my-pi/pi-ai": "18.18.0", "@oh-my-pi/pi-catalog": "18.18.0", "@oh-my-pi/pi-natives": "18.18.0", "@oh-my-pi/pi-utils": "18.18.0", "@oh-my-pi/pi-wire": "18.18.0", "@oh-my-pi/snapcompact": "18.18.0", "@opentelemetry/api": "^1.9.1" } }, "sha512-LOXcP+OybcDpgfhzX2i2MFsqBD9zCVXo2WcTWBxd/j5KXcY0mwAEJ8O79RQd5D0yr9gO9z/9xF0Fgmx937uHuw=="],
@@ -73,13 +77,19 @@
 
     "@oh-my-pi/snapcompact": ["@oh-my-pi/snapcompact@18.18.0", "", { "dependencies": { "@oh-my-pi/omptype": "18.18.0", "@oh-my-pi/pi-ai": "18.18.0", "@oh-my-pi/pi-catalog": "18.18.0", "@oh-my-pi/pi-natives": "18.18.0", "@oh-my-pi/pi-utils": "18.18.0", "@oh-my-pi/pi-wire": "18.18.0" } }, "sha512-RHPW6FuuSM1oUMzVQ19oBlvILLTK5R3kqDACKMt4nGQUTPv10BdBx2Gc6AwrrTf9ohdSSCSzjqGBLDQ+kDu8WA=="],
 
+    "@onlyne/compute-core": ["@onlyne/compute-core@file:../onlyne/packages/compute-core", { "dependencies": { "@onlyne/lib": "^3.1.0" }, "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" } }],
+
+    "@onlyne/compute-gateway": ["@onlyne/compute-gateway@file:../onlyne/packages/compute-gateway", { "dependencies": { "@onlyne/compute-core": "^3.1.0", "@onlyne/lib": "^3.1.0", "@onlyne/node-host": "^3.1.0" }, "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" }, "bin": { "onlyne-compute-broker": "src/main.ts" } }],
+
+    "@onlyne/lib": ["@onlyne/lib@file:../onlyne/packages/lib", { "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" } }],
+
+    "@onlyne/node-host": ["@onlyne/node-host@3.1.0", "", { "dependencies": { "@onlyne/lib": "^3.1.0", "bonjour-service": "^1.4.4" } }, "sha512-kcbbYdbyw675Nt96vS5/OaKqXgMoOldIehVcUqfveXpGolXYkaef1F87zrrx2mXRl9bfRq68VSwgxrx/N7bzIg=="],
+
     "@opentelemetry/api": ["@opentelemetry/api@1.10.0", "", {}, "sha512-lMkyes8iHrG+mk6WH7X70MdCLI2RS0FwNBY1PyQ8UemaijE2m5mv5A0Niy3HtbYTFrgkUEQjFMXmSAk2hQDuPQ=="],
 
     "@tern-bot/bdfl-engine": ["@tern-bot/bdfl-engine@workspace:packages/bdfl-engine"],
 
     "@tern-bot/bot-daemon": ["@tern-bot/bot-daemon@workspace:packages/bot-daemon"],
-
-    "@tern-bot/sandbox-broker": ["@tern-bot/sandbox-broker@workspace:packages/sandbox-broker"],
 
     "@tern-bot/tavern-harness": ["@tern-bot/tavern-harness@workspace:packages/tavern-harness"],
 
@@ -89,12 +99,32 @@
 
     "@types/node": ["@types/node@26.6.6", "", { "dependencies": { "undici-types": "~8.9.0" } }, "sha512-MzQj+8Kx3XI40OmUAE6Qoh58ZMNstNNMwn2nfd3qWsfe7nDNSqJNzes4njhz6AHwrSHOffSLwXU6yb474Q4aog=="],
 
+    "bonjour-service": ["bonjour-service@1.4.4", "", { "dependencies": { "fast-deep-equal": "^3.1.3", "multicast-dns": "^7.2.5" } }, "sha512-jCZcVv7eoc4QesRscwEZtSROBen+6LpKAmBIsQYQrsAeVHLyMXWX/t6eIV5KiRZYNUBl8eVqImEEMQ8L5+c/Kw=="],
+
     "bun-types": ["bun-types@1.4.4", "", { "dependencies": { "@types/node": "*", "undici-types": "*" } }, "sha512-yjrJh5oGX7mMPKGd19YXyIjmEuj4G4zNC30bs7PM9Az7NQ3ndF3j6hbeRdvJTRQEhJ/FYQwW0a2moweEi2hMxQ=="],
+
+    "dns-packet": ["dns-packet@5.6.1", "", { "dependencies": { "@leichtgewicht/ip-codec": "^2.0.1" } }, "sha512-l4gcSouhcgIKRvyy99RNVOgxXiicE+2jZoNmaNmZ6JXiGajBOJAesk1OBlJuM5k2c+eudGdLxDqXuPCKIj6kpw=="],
+
+    "fast-deep-equal": ["fast-deep-equal@3.1.3", "", {}, "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="],
+
+    "multicast-dns": ["multicast-dns@7.2.5", "", { "dependencies": { "dns-packet": "^5.2.2", "thunky": "^1.0.2" }, "bin": { "multicast-dns": "cli.js" } }, "sha512-2eznPJP8z2BFLX50tf0LuODrpINqP1RVIm/CObbTcBRITQgmC/TjcREF1NeTBzIcR5XO/ukWo+YHOjBbFwIupg=="],
+
+    "thunky": ["thunky@1.1.0", "", {}, "sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA=="],
 
     "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "undici-types": ["undici-types@8.12.4", "", {}, "sha512-GNCQH3MbVGB8OAVAoTiLH8pu4wx5Ni3DWKpnBzGj3WDsi8EwmK0aOVBooNEt+g5YL1eHPxcS9XUTouwFU6j1kQ=="],
 
+    "@onlyne/compute-core/@onlyne/lib": ["@onlyne/lib@file:../onlyne/packages/lib", { "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" } }],
+
+    "@onlyne/compute-gateway/@onlyne/compute-core": ["@onlyne/compute-core@file:../onlyne/packages/compute-core", { "dependencies": { "@onlyne/lib": "^3.1.0" }, "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" } }],
+
+    "@onlyne/compute-gateway/@onlyne/lib": ["@onlyne/lib@file:../onlyne/packages/lib", { "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" } }],
+
+    "@onlyne/node-host/@onlyne/lib": ["@onlyne/lib@file:../onlyne/packages/lib", { "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" } }],
+
     "@types/node/undici-types": ["undici-types@8.9.0", "", {}, "sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg=="],
+
+    "@onlyne/compute-gateway/@onlyne/compute-core/@onlyne/lib": ["@onlyne/lib@file:../onlyne/packages/lib", { "devDependencies": { "@types/bun": "^1.3.0", "typescript": "^5.9.0" } }],
   }
 }

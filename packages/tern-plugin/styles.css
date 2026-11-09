@@ -1,0 +1,260 @@
+/**
+ * Tern-Bot Companion Panel Styles
+ * `.tb-*` classes cover both `BlockView.main` (upper section) and `BlockView.dock`
+ * (bottom-anchored Workers list + Selected Worker detail card).
+ */
+
+/* `main` grows so the dock keeps the pane's bottom edge. */
+.sf-main[data-surface="plugin.tern-bot.board"],
+.sf-main[data-role="tern-bot.upper"] {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 0;
+	min-height: 0;
+	min-width: 0;
+	padding: 8px 8px 2px 8px;
+	gap: 6px;
+	overflow-y: auto;
+}
+
+.sf-dock[data-role="tern-bot.lower"] {
+	flex: none;
+	margin: 0;
+	padding: 2px 8px 8px 8px;
+	box-sizing: border-box;
+}
+
+.tb-upper {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.tb-upper.is-compute {
+	flex: 1 1 0;
+	min-height: 0;
+}
+
+/* Bottom-up aligned dock stack: Workers list + Selected Worker detail card */
+.tb-lower {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 4px 8px 8px 8px;
+	min-width: 0;
+}
+
+/* Section 1: Centered large bot avatar header */
+.tb-top {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	text-align: center;
+	min-width: 0;
+}
+
+.tb-ws-path {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 11.5px;
+}
+
+/* Section 4: Fixed-height scrollable Workers list with clear hover & active highlight */
+.tb-workers-scroll {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	max-height: 156px;
+	overflow-y: auto;
+	padding: 2px 4px 2px 0;
+}
+
+.tb-worker-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	border-radius: 6px;
+	border: 1px solid transparent;
+	cursor: pointer;
+}
+
+.tb-worker-item:hover {
+	background: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 9%));
+	border-color: light-dark(rgb(0 0 0 / 15%), rgb(255 255 255 / 22%));
+}
+
+.tb-worker-item.is-selected {
+	background: light-dark(rgb(37 99 235 / 15%), rgb(59 130 246 / 25%));
+	border-color: light-dark(rgb(37 99 235 / 58%), rgb(96 165 250 / 82%));
+	box-shadow: inset 3px 0 0 #60a5fa;
+}
+
+.tb-worker-item.is-selected:hover {
+	background: light-dark(rgb(37 99 235 / 22%), rgb(59 130 246 / 32%));
+}
+
+.tb-worker-body {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+/* Section 5: Bottom row — miniature desktop PiP window on bottom-left, Intervene on bottom-right */
+.tb-bottom {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 8px;
+	margin-top: 6px;
+}
+
+.tb-mini-pip {
+	display: flex;
+	flex-direction: column;
+	width: 176px;
+	border-radius: 7px;
+	border: 1px solid light-dark(rgb(0 0 0 / 20%), rgb(255 255 255 / 22%));
+	background: #0f172a;
+	overflow: hidden;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgb(0 0 0 / 32%);
+}
+
+.tb-mini-pip:hover {
+	border-color: #60a5fa;
+	box-shadow: 0 3px 14px rgb(59 130 246 / 42%);
+}
+
+.tb-mini-pip-bar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 3px 7px;
+	background: #1e293b;
+	border-bottom: 1px solid rgb(255 255 255 / 12%);
+	font-size: 10.5px;
+	color: #cbd5e1;
+}
+
+.tb-mini-pip-screen {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 176px;
+	height: 98px;
+	overflow: hidden;
+	background: #0b1120;
+}
+
+.tb-mini-pip-screen .sf-image {
+	width: 176px;
+	height: 98px;
+	max-width: 100%;
+}
+
+.tb-mini-pip-empty {
+	padding: 8px;
+	font-size: 11px;
+	color: #94a3b8;
+	text-align: center;
+}
+
+/* OrbStack-style Activity Monitor under "沙箱算力" tab */
+.tb-am-box {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.tb-am-list {
+	display: flex;
+	flex-direction: column;
+	max-height: 156px;
+	overflow-y: auto;
+	border: 1px solid var(--l2);
+	border-radius: 6px;
+	padding: 2px 0;
+}
+
+.tb-am-head,
+.tb-am-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 4px;
+	padding: 3px 6px;
+	font-size: 11px;
+	font-variant-numeric: tabular-nums;
+}
+
+.tb-am-head {
+	color: var(--t3);
+	border-bottom: 1px solid var(--l2);
+	font-size: 10.5px;
+}
+
+.tb-am-row:hover {
+	background: var(--l1);
+}
+
+.tb-am-row.is-sandbox {
+	background: rgb(16 185 129 / 10%);
+}
+
+.tb-am-name {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tb-am-num {
+	width: 48px;
+	text-align: right;
+	white-space: nowrap;
+	color: var(--t2);
+}
+
+.tb-am-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.tb-am-grid-row {
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+}
+
+.tb-am-metric {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 0;
+	min-width: 0;
+	padding: 5px 7px;
+	border: 1px solid var(--l2);
+	border-radius: 6px;
+	gap: 3px;
+}
+
+.tb-am-metric-top {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 11px;
+	font-variant-numeric: tabular-nums;
+}

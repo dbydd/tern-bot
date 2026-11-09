@@ -1,0 +1,13 @@
+providers:
+  magpie:
+    baseUrl: "http://host.orb.internal:3425/v1"
+    apiKey: "dummy-key-for-local-gateway"
+    models:
+      - id: "group/engineer"
+        name: "Engineer Group"
+  magpie-decisions:
+    baseUrl: "http://host.orb.internal:3425/v1"
+    apiKey: "dummy-key-for-local-gateway"
+    models:
+      - id: "group/decider"
+        name: "Decider Group"

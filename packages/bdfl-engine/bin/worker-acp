@@ -1,0 +1,14 @@
+#!/bin/sh
+# Tern ACP front relay: connects a Tern chat pane to a Worker's resident agent in a
+# sandbox. The target file names the sandbox-side connector argv; exec keeps this
+# process out of the byte path, so an EOF here closes the attachment and nothing else.
+set -eu
+
+target="${TERNBOT_WORKER_ACP:-.tern-bot/worker-acp.json}"
+if [ ! -f "$target" ]; then
+  echo "tern-bot worker: no ACP target at $target" >&2
+  exit 1
+fi
+
+here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+exec python3 "$here/worker-acp.py" "$target"

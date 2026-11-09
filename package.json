@@ -2,14 +2,21 @@
   "name": "tern-bot",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["packages/*"],
-  "bin": {
-    "omp-bot": "./bin/omp-bot"
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "check": "bun run --filter '*' check",
-    "smoke:orbstack": "bun run packages/sandbox-broker/test/smoke-orbstack.ts",
-    "smoke:bdfl": "bun run packages/bdfl-engine/test/smoke-flow.ts"
+    "check": "bun run --filter '*' check"
+  },
+  "dependencies": {
+    "@onlyne/compute-core": "file:../onlyne/packages/compute-core",
+    "@onlyne/compute-gateway": "file:../onlyne/packages/compute-gateway",
+    "@onlyne/lib": "file:../onlyne/packages/lib"
+  },
+  "overrides": {
+    "@onlyne/compute-core": "file:../onlyne/packages/compute-core",
+    "@onlyne/compute-gateway": "file:../onlyne/packages/compute-gateway",
+    "@onlyne/lib": "file:../onlyne/packages/lib"
   },
   "devDependencies": {
     "@types/bun": "^1.4.0",

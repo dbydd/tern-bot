@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="100%" height="100%">
+  <defs>
+    <style>
+      .step-box { rx: 8px; ry: 8px; stroke-width: 1.5; }
+      .step-num { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; font-weight: 700; }
+      .step-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 600; }
+      .step-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 400; line-height: 1.4; }
+      .step-arrow { stroke-width: 2; marker-end: url(#arrowhead-flow); fill: none; }
+    </style>
+    <marker id="arrowhead-flow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="var(--accent, #3b82f6)"/>
+    </marker>
+  </defs>
+
+  <!-- Step 1: Create Bot -->
+  <rect x="30" y="40" width="160" height="320" class="step-box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <circle cx="60" cy="70" r="16" fill="var(--accent, #3b82f6)" />
+  <text x="56" y="75" class="step-num" fill="#ffffff">1</text>
+  <text x="85" y="76" class="step-title" fill="var(--fg, #0f172a)">创建 Bot</text>
+  <line x1="45" y1="98" x2="175" y2="98" stroke="var(--border, #e2e8f0)" stroke-width="1"/>
+  <text x="45" y="125" class="step-desc" fill="var(--muted, #64748b)">• 命令面板触发</text>
+  <text x="45" y="145" class="step-desc" fill="var(--muted, #64748b)">  "Create Bot"</text>
+  <text x="45" y="175" class="step-desc" fill="var(--muted, #64748b)">• 选定项目工作区</text>
+  <text x="45" y="205" class="step-desc" fill="var(--muted, #64748b)">• 指定 Bot 唯一标识</text>
+  <text x="45" y="235" class="step-desc" fill="var(--muted, #64748b)">• 自动布局并打开</text>
+  <text x="45" y="255" class="step-desc" fill="var(--muted, #64748b)">  双栏分屏视图</text>
+  <text x="45" y="285" class="step-desc" fill="var(--accent, #3b82f6)">• 左侧 Agent 对话</text>
+  <text x="45" y="305" class="step-desc" fill="var(--success, #10b981)">• 右侧实时看板</text>
+
+  <!-- Step 2: Dispatch Task -->
+  <rect x="220" y="40" width="160" height="320" class="step-box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <circle cx="250" cy="70" r="16" fill="var(--accent, #3b82f6)" />
+  <text x="246" y="75" class="step-num" fill="#ffffff">2</text>
+  <text x="275" y="76" class="step-title" fill="var(--fg, #0f172a)">派发任务</text>
+  <line x1="235" y1="98" x2="365" y2="98" stroke="var(--border, #e2e8f0)" stroke-width="1"/>
+  <text x="235" y="125" class="step-desc" fill="var(--muted, #64748b)">• Bot 执行工具</text>
+  <text x="235" y="145" class="step-desc" fill="var(--muted, #64748b)">  bdfl_dispatch</text>
+  <text x="235" y="175" class="step-desc" fill="var(--muted, #64748b)">• 分配独立租约沙箱</text>
+  <text x="235" y="205" class="step-desc" fill="var(--muted, #64748b)">• 注入专用 HOME 树</text>
+  <text x="235" y="225" class="step-desc" fill="var(--muted, #64748b)">  (隔离 OMP/配置)</text>
+  <text x="235" y="255" class="step-desc" fill="var(--muted, #64748b)">• 沙箱启动常驻</text>
+  <text x="235" y="275" class="step-desc" fill="var(--muted, #64748b)">  Python ACP 会话</text>
+  <text x="235" y="305" class="step-desc" fill="var(--warning, #f59e0b)">• Worker 自主工作</text>
+
+  <!-- Step 3: Reconnect & Monitor -->
+  <rect x="410" y="40" width="160" height="320" class="step-box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <circle cx="440" cy="70" r="16" fill="var(--accent, #3b82f6)" />
+  <text x="436" y="75" class="step-num" fill="#ffffff">3</text>
+  <text x="465" y="76" class="step-title" fill="var(--fg, #0f172a)">旁观与介入</text>
+  <line x1="425" y1="98" x2="555" y2="98" stroke="var(--border, #e2e8f0)" stroke-width="1"/>
+  <text x="425" y="125" class="step-desc" fill="var(--muted, #64748b)">• 看板 Worker 列表</text>
+  <text x="425" y="145" class="step-desc" fill="var(--muted, #64748b)">  实时步数/状态跟踪</text>
+  <text x="425" y="175" class="step-desc" fill="var(--muted, #64748b)">• 桌面关键帧轮巡</text>
+  <text x="425" y="195" class="step-desc" fill="var(--muted, #64748b)">  (微缩 PiP 预览)</text>
+  <text x="425" y="225" class="step-desc" fill="var(--muted, #64748b)">• "打开会话" 挂接</text>
+  <text x="425" y="245" class="step-desc" fill="var(--muted, #64748b)">  ACP 实时交互前台</text>
+  <text x="425" y="275" class="step-desc" fill="var(--muted, #64748b)">• 前台随意开关</text>
+  <text x="425" y="295" class="step-desc" fill="var(--muted, #64748b)">  历史随时重连</text>
+
+  <!-- Step 4: Auto Submission & Review -->
+  <rect x="600" y="40" width="160" height="320" class="step-box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <circle cx="630" cy="70" r="16" fill="var(--accent, #3b82f6)" />
+  <text x="626" y="75" class="step-num" fill="#ffffff">4</text>
+  <text x="655" y="76" class="step-title" fill="var(--fg, #0f172a)">提交与审核</text>
+  <line x1="615" y1="98" x2="745" y2="98" stroke="var(--border, #e2e8f0)" stroke-width="1"/>
+  <text x="615" y="125" class="step-desc" fill="var(--muted, #64748b)">• Worker 完成任务</text>
+  <text x="615" y="145" class="step-desc" fill="var(--muted, #64748b)">  (end_turn 回到空闲)</text>
+  <text x="615" y="175" class="step-desc" fill="var(--muted, #64748b)">• 自动收集工作区</text>
+  <text x="615" y="195" class="step-desc" fill="var(--muted, #64748b)">  生成 ArtifactBundle</text>
+  <text x="615" y="225" class="step-desc" fill="var(--muted, #64748b)">• Bot 启专用审核环境</text>
+  <text x="615" y="245" class="step-desc" fill="var(--muted, #64748b)">  bdfl_review</text>
+  <text x="615" y="275" class="step-desc" fill="var(--accent, #3b82f6)">• sandbox_browser</text>
+  <text x="615" y="295" class="step-desc" fill="var(--accent, #3b82f6)">  CDP/AX 树视觉验证</text>
+
+  <!-- Step 5: Acceptance & Reclamation -->
+  <rect x="790" y="40" width="145" height="320" class="step-box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <circle cx="820" cy="70" r="16" fill="var(--success, #10b981)" />
+  <text x="816" y="75" class="step-num" fill="#ffffff">5</text>
+  <text x="845" y="76" class="step-title" fill="var(--fg, #0f172a)">验收回收</text>
+  <line x1="805" y1="98" x2="920" y2="98" stroke="var(--border, #e2e8f0)" stroke-width="1"/>
+  <text x="805" y="125" class="step-desc" fill="var(--muted, #64748b)">• 验证页面交互</text>
+  <text x="805" y="145" class="step-desc" fill="var(--muted, #64748b)">  与行为符合预期</text>
+  <text x="805" y="175" class="step-desc" fill="var(--muted, #64748b)">• Bot 执行验收</text>
+  <text x="805" y="195" class="step-desc" fill="var(--muted, #64748b)">  bdfl_accept</text>
+  <text x="805" y="225" class="step-desc" fill="var(--muted, #64748b)">• 导出交付物文件</text>
+  <text x="805" y="245" class="step-desc" fill="var(--muted, #64748b)">  至指定宿主目录</text>
+  <text x="805" y="275" class="step-desc" fill="var(--success, #10b981)">• 自动清理并销毁</text>
+  <text x="805" y="295" class="step-desc" fill="var(--success, #10b981)">  双沙箱容器租约</text>
+
+  <!-- Flow Arrows between boxes -->
+  <line x1="190" y1="180" x2="220" y2="180" class="step-arrow" stroke="var(--accent, #3b82f6)"/>
+  <line x1="380" y1="180" x2="410" y2="180" class="step-arrow" stroke="var(--accent, #3b82f6)"/>
+  <line x1="570" y1="180" x2="600" y2="180" class="step-arrow" stroke="var(--accent, #3b82f6)"/>
+  <line x1="760" y1="180" x2="790" y2="180" class="step-arrow" stroke="var(--accent, #3b82f6)"/>
+</svg>

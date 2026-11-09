@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .box { rx: 10px; ry: 10px; stroke-width: 1.5; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 600; }
+      .text-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 400; }
+      .text-badge { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; font-weight: 600; }
+      .arrow { stroke-width: 2; marker-end: url(#arrowhead); fill: none; }
+      .arrow-dashed { stroke-width: 1.5; stroke-dasharray: 5,5; marker-end: url(#arrowhead-dashed); fill: none; }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="var(--accent, #3b82f6)"/>
+    </marker>
+    <marker id="arrowhead-dashed" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="var(--muted, #64748b)"/>
+    </marker>
+  </defs>
+
+  <!-- Region 1: Tern Native Window (Left / UI) -->
+  <rect x="20" y="20" width="280" height="440" class="box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <text x="40" y="55" class="text-title" fill="var(--fg, #0f172a)">Tern 终端多路复用器</text>
+  <text x="40" y="75" class="text-badge" fill="var(--muted, #64748b)">TERRESTRIAL NATIVE UI</text>
+
+  <!-- Bot Chat Pane -->
+  <rect x="40" y="95" width="240" height="100" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="55" y="125" class="text-title" fill="var(--accent, #3b82f6)">Bot Agent 交互会话</text>
+  <text x="55" y="148" class="text-sub" fill="var(--muted, #64748b)">• 指令输入 &amp; 任务调度</text>
+  <text x="55" y="168" class="text-sub" fill="var(--muted, #64748b)">• BDFL 工具决策与审核</text>
+
+  <!-- Board Companion Pane -->
+  <rect x="40" y="215" width="240" height="120" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="55" y="245" class="text-title" fill="var(--success, #10b981)">Tern Bot 看板插件</text>
+  <text x="55" y="268" class="text-sub" fill="var(--muted, #64748b)">• 多 Bot / 多 Worker 状态</text>
+  <text x="55" y="288" class="text-sub" fill="var(--muted, #64748b)">• 桌面关键帧微缩实时预览</text>
+  <text x="55" y="308" class="text-sub" fill="var(--muted, #64748b)">• 一键打开 ACP 会话 / 介入</text>
+
+  <!-- Worker Reconnect Front Tab -->
+  <rect x="40" y="355" width="240" height="85" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="55" y="385" class="text-title" fill="var(--fg, #0f172a)">Worker ACP 前台标签</text>
+  <text x="55" y="408" class="text-sub" fill="var(--muted, #64748b)">• 连入沙箱常驻 ACP 服务</text>
+  <text x="55" y="425" class="text-sub" fill="var(--muted, #64748b)">• 断开不中断后台执行</text>
+
+  <!-- Middle: Bot Daemon & Onlyne Hub (Host Layer) -->
+  <rect x="340" y="20" width="280" height="440" class="box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <text x="360" y="55" class="text-title" fill="var(--fg, #0f172a)">宿主服务与调度内核</text>
+  <text x="360" y="75" class="text-badge" fill="var(--muted, #64748b)">HOST RUNTIME &amp; BROKER</text>
+
+  <!-- Bot Daemon -->
+  <rect x="360" y="95" width="240" height="120" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="375" y="125" class="text-title" fill="var(--accent, #3b82f6)">Bot Daemon (OMP 扩展)</text>
+  <text x="375" y="148" class="text-sub" fill="var(--muted, #64748b)">• BdflEngine 驱动</text>
+  <text x="375" y="168" class="text-sub" fill="var(--muted, #64748b)">• 状态心跳与任务同步</text>
+  <text x="375" y="188" class="text-sub" fill="var(--muted, #64748b)">• 自动产物收集与提交</text>
+
+  <!-- Onlyne Hub -->
+  <rect x="360" y="235" width="240" height="100" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="375" y="265" class="text-title" fill="var(--fg, #0f172a)">Onlyne Hub 服务</text>
+  <text x="375" y="288" class="text-sub" fill="var(--muted, #64748b)">• ComputeBroker (Docker/VM)</text>
+  <text x="375" y="308" class="text-sub" fill="var(--muted, #64748b)">• X 显示桌面关键帧捕获</text>
+
+  <!-- Host HOME Template -->
+  <rect x="360" y="355" width="240" height="85" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="375" y="385" class="text-title" fill="var(--fg, #0f172a)">沙箱专用 HOME 模板</text>
+  <text x="375" y="408" class="text-sub" fill="var(--muted, #64748b)">• ~/.config/tern-bot/sandbox-cfg</text>
+  <text x="375" y="425" class="text-sub" fill="var(--muted, #64748b)">• 独立 OMP/Claude 配置树</text>
+
+  <!-- Right: Isolated Sandboxes (Docker / VM) -->
+  <rect x="660" y="20" width="280" height="440" class="box" fill="var(--surface, #f8fafc)" stroke="var(--border, #cbd5e1)" />
+  <text x="680" y="55" class="text-title" fill="var(--fg, #0f172a)">隔离沙箱环境</text>
+  <text x="680" y="75" class="text-badge" fill="var(--muted, #64748b)">DOCKER / ORBSTACK VM</text>
+
+  <!-- Worker Container -->
+  <rect x="680" y="95" width="240" height="150" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="695" y="125" class="text-title" fill="var(--warning, #f59e0b)">Worker 工作沙箱</text>
+  <text x="695" y="148" class="text-sub" fill="var(--muted, #64748b)">• Python ACP 常驻服务</text>
+  <text x="695" y="168" class="text-sub" fill="var(--muted, #64748b)">• 独立沙箱 HOME 配置生效</text>
+  <text x="695" y="188" class="text-sub" fill="var(--muted, #64748b)">• 独立 Agent (OMP / Claude)</text>
+  <text x="695" y="208" class="text-sub" fill="var(--muted, #64748b)">• Xvfb / 桌面环境 / /workspace</text>
+  <text x="695" y="228" class="text-sub" fill="var(--muted, #64748b)">• 产物独立制作 &amp; 本地构建</text>
+
+  <!-- Review Container -->
+  <rect x="680" y="265" width="240" height="175" class="box" fill="var(--bg, #ffffff)" stroke="var(--border, #e2e8f0)" />
+  <text x="695" y="295" class="text-title" fill="var(--success, #10b981)">Review 审核沙箱</text>
+  <text x="695" y="318" class="text-sub" fill="var(--muted, #64748b)">• 自动挂载交付产物 Bundle</text>
+  <text x="695" y="338" class="text-sub" fill="var(--muted, #64748b)">• 8080 端口 HTTP 服务托管</text>
+  <text x="695" y="358" class="text-sub" fill="var(--muted, #64748b)">• Chromium CDP 自动化驱动</text>
+  <text x="695" y="378" class="text-sub" fill="var(--muted, #64748b)">• [ref=eN] AX 树提取与截图</text>
+  <text x="695" y="398" class="text-sub" fill="var(--muted, #64748b)">• 观察完毕自动验收并回收</text>
+
+  <!-- Connecting Lines -->
+  <!-- 1. Bot Pane -> Bot Daemon -->
+  <path d="M 280 145 L 360 145" class="arrow" stroke="var(--accent, #3b82f6)" />
+  <!-- 2. Board -> Onlyne Hub -->
+  <path d="M 280 275 L 360 275" class="arrow" stroke="var(--fg, #0f172a)" />
+  <!-- 3. Bot Daemon -> Onlyne Hub -->
+  <path d="M 480 215 L 480 235" class="arrow" stroke="var(--accent, #3b82f6)" />
+  <!-- 4. Onlyne Hub -> Containers -->
+  <path d="M 600 260 L 680 180" class="arrow" stroke="var(--warning, #f59e0b)" />
+  <path d="M 600 300 L 680 340" class="arrow" stroke="var(--success, #10b981)" />
+  <!-- 5. Worker Reconnect -> Worker Container -->
+  <path d="M 280 400 C 320 400, 340 450, 480 450 C 620 450, 640 210, 680 210" class="arrow-dashed" stroke="var(--muted, #64748b)" />
+</svg>

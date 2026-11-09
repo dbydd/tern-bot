@@ -6,3 +6,10 @@ description = "Multi-bot board: bot state, workers and sandbox desktops."
 icon = "robot"
 host = "host.luau"
 window = "window.luau"
+styles = ["styles.css"]
+
+[[blocks]]
+id = "board"
+title = "Tern Bot Board"
+icon = "robot"
+palette = true
